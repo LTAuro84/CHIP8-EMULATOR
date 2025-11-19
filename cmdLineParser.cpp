@@ -25,12 +25,41 @@ TCmdLineParser::TCmdLineParser()
 
 void TCmdLineParser::parseCmdLine(int argc, char** argv) {
     for (int i = 1; i < argc; i++) {
-        string auxStr(argv[i]);
+        string cmdOption(argv[i]);
 
-        if(auxStr.at(0) == '-') {
-            if (auxStr == "-h" || auxStr == "--help") {
+        if(cmdOption.at(0) == '-') {
+            if (cmdOption == "-h" || cmdOption == "--help") {
                 this -> printHelpMessage();
             }
+            else if (cmdOption == "-r" || cmdOption == "--romFileName") {
+                i++;
+                string  auxName(argv[i]);
+                this -> setRomFileName(auxName);
+            }
+            else if (cmdOption == "-l" || cmdOption == "--logLevel") { 
+                i++;
+                string logLevel(argv[i]);
+                if (!isdigit(logLevel.at(0))) {
+                    logger -> log("Parameter must be a number 0 - 4", ELogLevel::ERROR);
+                    exit(1);
+                }
+                this -> setLogLevel(stoi(logLevel));
+            }
+            else {
+                string param(argv[i]);
+                logger -> log("Unknown parameter: " + param, ELogLevel::ERROR);
+                exit(1);
+            }
+
+        }
+        else {
+            string param(argv[i]);
+            logger -> log("Unknown parameter: " + param, ELogLevel::ERROR);
+            exit(1);
         }
     }
+}
+
+bool TCmdLineParser::isRomeFileNameSet() {
+    return !(romFileName == "");
 }
