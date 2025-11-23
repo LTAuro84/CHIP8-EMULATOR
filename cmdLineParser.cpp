@@ -11,11 +11,11 @@ void TCmdLineParser::printHelpMessage() {
 }
 
 void TCmdLineParser::setRomFileName(string new_name) {
-    this->romFileName = new_name;
+    this->romFileName = new_name; //stores the rom file name
 }
 
 void TCmdLineParser::setLogLevel(int logLevel) {
-    this -> logLevel = logLevel;
+    this -> logLevel = logLevel; //stores the log level
 }
 
 TCmdLineParser::TCmdLineParser()
@@ -60,6 +60,19 @@ void TCmdLineParser::parseCmdLine(int argc, char** argv) {
     }
 }
 
+//checks if the rom file name was provided
 bool TCmdLineParser::isRomeFileNameSet() {
-    return !(romFileName == "");
+    return !(romFileName == ""); //returns true if not emptys
+}
+
+string TCmdLineParser::getRomFileName() {
+    return romFileName;
+}
+
+bool TCmdLineParser::isLogLevelSet() {
+    return !(logLevel == -1);
+}
+
+int TCmdLineParser::getLogLevel() {
+    return logLevel;
 }
